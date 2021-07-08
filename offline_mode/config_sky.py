@@ -37,3 +37,11 @@ earth_observer_parameters = dict(
     altitude_degrees_filter=10,
     observation_output = os_join(dirname(realpath(__file__)),'observation_output')
 )
+
+
+specular_calculator_parameters = dict(
+    srtm_cache_path = os_join(dirname(realpath(__file__)),'srtm_cache'),
+    number_of_iteration_spec_calc = 3,
+    lambda_ellipse = 3e8 / 1.57542e9,
+    geojson_path = os_join(dirname(realpath(__file__)),'geojson_output')
+)

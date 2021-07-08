@@ -48,7 +48,7 @@ def downloadTLE(obs_date):
     return check_cache
 
 
-def estimate_position(obs_lat, obs_lon, obs_alt, obs_datetime, filter_elevation_angle):
+def estimate_position(obs_lat, obs_lon, obs_alt, obs_datetime, filter_elevation_angle, export=False):
     stations_url = downloadTLE(obs_datetime.date())
     satellites = load.tle_file(stations_url)
     ts = load.timescale()
@@ -70,9 +70,10 @@ def estimate_position(obs_lat, obs_lon, obs_alt, obs_datetime, filter_elevation_
                          t0[events.index(0)].utc_strftime('%Y-%m-%dT%H:%M:%S'),
                          t0[events.index(1)].utc_strftime('%Y-%m-%dT%H:%M:%S'),
                          t0[events.index(2)].utc_strftime('%Y-%m-%dT%H:%M:%S')]
-
-    df.sort_values(by=['prn_id']).reset_index(drop=True).to_csv(earth_observer_parameters['observation_output'],
-                                                                index=False)
+    df = df.sort_values(by=['prn_id']).reset_index(drop=True)
+    if export:
+        df.to_csv(earth_observer_parameters['observation_output'], index=False)
+    return df
 
 
 if __name__ == "__main__":
